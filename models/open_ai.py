@@ -6,7 +6,7 @@ from openai import OpenAI
 load_dotenv()
 
 class GPT:
-    def __init__(self, api_key=None, system_prompt=None, default_model="gpt-4", default_temperature=0.7, default_max_tokens=1000, default_frequency_penalty=0.0):
+    def __init__(self, api_key=None, system_prompt=None, default_model="gpt-4", default_temperature=0.7, default_frequency_penalty=0.0):
         """
         Initialize the GPT class with default parameters.
 
@@ -15,7 +15,6 @@ class GPT:
             system_prompt (str): The system prompt for context, set during initialization.
             default_model (str): Default model to use for API calls.
             default_temperature (float): Default sampling temperature for the model.
-            default_max_tokens (int): Default maximum tokens to generate.
             default_frequency_penalty (float): Default frequency penalty for the model.
         """
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
@@ -29,10 +28,9 @@ class GPT:
         self.system_prompt = system_prompt
         self.default_model = default_model
         self.default_temperature = default_temperature
-        self.default_max_tokens = default_max_tokens
         self.default_frequency_penalty = default_frequency_penalty
 
-    def generate_response(self, user_prompt, dynamic_inputs=None, model=None, temperature=None, max_tokens=None, frequency_penalty=None):
+    def generate_response(self, user_prompt, dynamic_inputs=None, model=None, temperature=None, frequency_penalty=None):
         """
         Call the OpenAI GPT API with dynamic and static prompts.
 
@@ -41,7 +39,6 @@ class GPT:
             dynamic_inputs (dict): Key-value pairs to dynamically populate the user prompt.
             model (str): Model to use (optional, defaults to class default).
             temperature (float): Sampling temperature (optional, defaults to class default).
-            max_tokens (int): Maximum number of tokens to generate (optional, defaults to class default).
             frequency_penalty (float): Frequency penalty (optional, defaults to class default).
 
         Returns:
@@ -51,7 +48,6 @@ class GPT:
             # Use defaults if specific values are not provided
             model = model or self.default_model
             temperature = temperature if temperature is not None else self.default_temperature
-            max_tokens = max_tokens or self.default_max_tokens
             frequency_penalty = frequency_penalty if frequency_penalty is not None else self.default_frequency_penalty
 
             # Populate the user prompt with dynamic inputs if provided
@@ -64,12 +60,12 @@ class GPT:
                 {"role": "user", "content": user_prompt}
             ]
 
-            # Call the OpenAI API
+            # Call the OpenAI API with virtually infinite max_tokens
             response = self.client.chat.completions.create(
                 model=model,
                 messages=messages,
                 temperature=temperature,
-                max_tokens=max_tokens,
+                max_tokens=4096,  # Maximum token limit for most GPT-4 models
                 frequency_penalty=frequency_penalty
             )
 
@@ -86,7 +82,7 @@ class GPT:
         except Exception as e:
             print(f"Error while calling OpenAI API: {e}")
             return None
-    
+        
 # Initialize the GPT class with a system prompt
 gpt = GPT(
     api_key=os.getenv("OPENAI_API_KEY"),

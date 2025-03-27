@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import requests
 from bs4 import BeautifulSoup
@@ -7,11 +7,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 from urllib.parse import urlparse
 import pandas as pd
 import re
+from icalendar import Calendar, Event
+from dateutil import parser
+import io
 from config import Config
 
 # Initialize Flask app
@@ -37,7 +40,7 @@ def validate_and_format_url(url):
 
 def init_db():
     """Initialize SQLite database"""
-    conn = sqlite3.connect('scraped_data.db')
+    conn = sqlite3.connect(Config.DATABASE_PATH)
     c = conn.cursor()
     c.execute('''
         CREATE TABLE IF NOT EXISTS scraped_data
@@ -53,9 +56,9 @@ def scrape_static(url):
     """Scrape static content from URL"""
     try:
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            'User-Agent': Config.USER_AGENT
         }
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=Config.SCRAPING_TIMEOUT)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         return soup.get_text()
@@ -76,7 +79,7 @@ def scrape_dynamic(url):
         driver = webdriver.Chrome(service=service, options=chrome_options)
         
         driver.get(url)
-        time.sleep(5)
+        time.sleep(Config.DYNAMIC_LOAD_WAIT)
         
         content = driver.page_source
         soup = BeautifulSoup(content, 'html.parser')
@@ -90,7 +93,7 @@ def save_to_db(url, content):
     if not content:
         return False
     
-    conn = sqlite3.connect('scraped_data.db')
+    conn = sqlite3.connect(Config.DATABASE_PATH)
     c = conn.cursor()
     c.execute('''
         INSERT INTO scraped_data (url, content, timestamp)
@@ -100,33 +103,56 @@ def save_to_db(url, content):
     conn.close()
     return True
 
-def extract_assignments(content):
-    """Extract assignments and dates from content"""
-    # Common patterns for assignments
-    patterns = [
-        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*[-–]\s*(.*?)(?=\n|$)',  # Date - Assignment
-        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*:\s*(.*?)(?=\n|$)',     # Date: Assignment
-        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s+(.*?)(?=\n|$)',         # Date Assignment
-        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*Due\s*:\s*(.*?)(?=\n|$)' # Date Due: Assignment
+def extract_events(content):
+    """Extract events and dates from content"""
+    # Common patterns for dates and events
+    date_patterns = [
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*[-–]\s*(.*?)(?=\n|$)',  # Date - Event
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*:\s*(.*?)(?=\n|$)',     # Date: Event
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s+(.*?)(?=\n|$)',         # Date Event
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*Due\s*:\s*(.*?)(?=\n|$)' # Date Due: Event
     ]
     
-    assignments = []
-    for pattern in patterns:
+    events = []
+    for pattern in date_patterns:
         matches = re.finditer(pattern, content, re.IGNORECASE)
         for match in matches:
-            day, date, month, year, assignment = match.groups()
+            day, date, month, year, event_desc = match.groups()
             try:
                 # Convert date string to datetime
                 date_str = f"{month} {date}, {year}"
-                date_obj = datetime.strptime(date_str, "%B %d, %Y")
-                assignments.append({
-                    'Date': date_obj.strftime("%A, %B %d, %Y"),
-                    'Assignment': assignment.strip()
-                })
+                date_obj = parser.parse(date_str)
+                
+                # Create event object
+                event = {
+                    'summary': event_desc.strip(),
+                    'dtstart': date_obj,
+                    'dtend': date_obj + timedelta(hours=1),  # Default 1-hour duration
+                    'description': f"Extracted from: {url}"
+                }
+                events.append(event)
             except ValueError:
                 continue
     
-    return assignments
+    return events
+
+def generate_ics(events, url):
+    """Generate ICS file from events"""
+    cal = Calendar()
+    cal.add('prodid', '-//Complete Calendar Generator//example.com//')
+    cal.add('version', '2.0')
+    cal.add('name', f'Events from {url}')
+    cal.add('description', f'Generated events from {url}')
+    
+    for event_data in events:
+        event = Event()
+        event.add('summary', event_data['summary'])
+        event.add('dtstart', event_data['dtstart'])
+        event.add('dtend', event_data['dtend'])
+        event.add('description', event_data['description'])
+        cal.add_component(event)
+    
+    return cal.to_ical()
 
 @app.route('/api/scrape', methods=['POST'])
 def scrape():
@@ -167,31 +193,28 @@ def scrape():
 def generate_calendar():
     data = request.get_json()
     content = data.get('content')
+    url = data.get('url')
     
-    if not content:
-        return jsonify({'error': 'Content is required'}), 400
+    if not content or not url:
+        return jsonify({'error': 'Content and URL are required'}), 400
     
     try:
-        # Extract assignments from content
-        assignments = extract_assignments(content)
+        # Extract events from content
+        events = extract_events(content)
         
-        if not assignments:
-            return jsonify({'error': 'No assignments found in content'}), 400
+        if not events:
+            return jsonify({'error': 'No events found in content'}), 400
         
-        # Create DataFrame and sort by date
-        df = pd.DataFrame(assignments)
-        df['Date'] = pd.to_datetime(df['Date'])
-        df = df.sort_values('Date')
-        df['Date'] = df['Date'].dt.strftime("%A, %B %d, %Y")
+        # Generate ICS file
+        ics_content = generate_ics(events, url)
         
-        # Convert to CSV format
-        csv_content = df.to_csv(index=False, sep='\t')
-        
-        return jsonify({
-            'success': True,
-            'message': 'Calendar generated successfully',
-            'content': csv_content
-        })
+        # Create response with ICS file
+        return send_file(
+            io.BytesIO(ics_content),
+            mimetype='text/calendar',
+            as_attachment=True,
+            download_name='course_calendar.ics'
+        )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -203,4 +226,4 @@ def health_check():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
