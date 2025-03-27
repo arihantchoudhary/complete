@@ -10,11 +10,13 @@ import sqlite3
 from datetime import datetime
 import time
 from urllib.parse import urlparse
-import os
+import pandas as pd
+import re
+from config import Config
 
+# Initialize Flask app
 app = Flask(__name__)
-# Configure CORS to allow all origins
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/api/*": {"origins": Config.CORS_ORIGINS}})
 
 def validate_and_format_url(url):
     """Validate and format URL, adding https:// if no scheme is present"""
@@ -98,6 +100,34 @@ def save_to_db(url, content):
     conn.close()
     return True
 
+def extract_assignments(content):
+    """Extract assignments and dates from content"""
+    # Common patterns for assignments
+    patterns = [
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*[-–]\s*(.*?)(?=\n|$)',  # Date - Assignment
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*:\s*(.*?)(?=\n|$)',     # Date: Assignment
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s+(.*?)(?=\n|$)',         # Date Assignment
+        r'(\w+)\s+(\d+)\s+(\w+)\s+(\d{4})\s*Due\s*:\s*(.*?)(?=\n|$)' # Date Due: Assignment
+    ]
+    
+    assignments = []
+    for pattern in patterns:
+        matches = re.finditer(pattern, content, re.IGNORECASE)
+        for match in matches:
+            day, date, month, year, assignment = match.groups()
+            try:
+                # Convert date string to datetime
+                date_str = f"{month} {date}, {year}"
+                date_obj = datetime.strptime(date_str, "%B %d, %Y")
+                assignments.append({
+                    'Date': date_obj.strftime("%A, %B %d, %Y"),
+                    'Assignment': assignment.strip()
+                })
+            except ValueError:
+                continue
+    
+    return assignments
+
 @app.route('/api/scrape', methods=['POST'])
 def scrape():
     data = request.get_json()
@@ -142,15 +172,35 @@ def generate_calendar():
         return jsonify({'error': 'Content is required'}), 400
     
     try:
-        # Here you would integrate with GPT to process the content
-        # For now, we'll just return a success message
+        # Extract assignments from content
+        assignments = extract_assignments(content)
+        
+        if not assignments:
+            return jsonify({'error': 'No assignments found in content'}), 400
+        
+        # Create DataFrame and sort by date
+        df = pd.DataFrame(assignments)
+        df['Date'] = pd.to_datetime(df['Date'])
+        df = df.sort_values('Date')
+        df['Date'] = df['Date'].dt.strftime("%A, %B %d, %Y")
+        
+        # Convert to CSV format
+        csv_content = df.to_csv(index=False, sep='\t')
+        
         return jsonify({
             'success': True,
-            'message': 'Calendar generation initiated',
-            'content': content[:1000] + '...'
+            'message': 'Calendar generated successfully',
+            'content': csv_content
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat()
+    })
+
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
