@@ -24,12 +24,6 @@
   "github": {
     "silent": true
   },
-  "functions": {
-    "api/**/*": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
   "env": {
     "NODE_ENV": "production",
     "NODE_VERSION": "18.x"
