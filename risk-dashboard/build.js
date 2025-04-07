@@ -12,13 +12,13 @@ async function buildApp() {
   console.log('Starting Vite build from custom script...');
   try {
     // Import the vite config
-    const configFile = path.resolve(__dirname, 'vite.config.ts');
+    const configFile = path.resolve(__dirname, 'vite.config.js');
     if (!fs.existsSync(configFile)) {
       throw new Error(`Vite config file not found: ${configFile}`);
     }
 
     // Load the config
-    const { default: configFn } = await import('./vite.config.ts');
+    const { default: configFn } = await import('./vite.config.js');
     const config = configFn({ mode: 'production' });
 
     // Run the build
