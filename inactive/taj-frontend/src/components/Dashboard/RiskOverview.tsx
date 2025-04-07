@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/UI/card';
 import RiskAlert from '../UI/RiskAlert';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/UI/use-toast';
 import { useHotel } from '@/contexts/HotelContext';
 
 // Define property-specific alerts for each hotel

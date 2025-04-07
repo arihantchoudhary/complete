@@ -63,33 +63,17 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Custom colors for our logistics app
-				logistics: {
-					blue: {
-						DEFAULT: '#0F52BA',
-						light: '#4B89DC',
-						dark: '#05386B',
-					},
-					teal: {
-						DEFAULT: '#5CDB95',
-						light: '#8EE4AF',
-						dark: '#379683',
-					},
-					warning: {
-						DEFAULT: '#FFA500',
-						light: '#FFD700',
-						dark: '#FF8C00',
-					},
-					danger: {
-						DEFAULT: '#FF3A20',
-						light: '#FF6B6B',
-						dark: '#C70039',
-					},
-					neutral: {
-						DEFAULT: '#8E9196',
-						light: '#F5F5F5',
-						dark: '#373A40',
-					}
+				risk: {
+					low: '#4ade80',
+					medium: '#facc15',
+					high: '#f87171',
+					veryHigh: '#ef4444'
+				},
+				chart: {
+					green: '#10b981',
+					yellow: '#f59e0b',
+					orange: '#f97316',
+					red: '#ef4444',
 				}
 			},
 			borderRadius: {
@@ -114,15 +98,61 @@ export default {
 						height: '0'
 					}
 				},
-				'pulse-slow': {
-					'0%, 100%': { opacity: '1' },
-					'50%': { opacity: '0.5' },
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'fade-out': {
+					'0%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					},
+					'100%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					}
+				},
+				'scale-in': {
+					'0%': {
+						transform: 'scale(0.95)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'scale(1)',
+						opacity: '1'
+					}
+				},
+				'pulse-subtle': {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.8'
+					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-5px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'pulse-slow': 'pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'fade-in': 'fade-in 0.3s ease-out',
+				'fade-out': 'fade-out 0.3s ease-out',
+				'scale-in': 'scale-in 0.3s ease-out',
+				'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite',
+				'float': 'float 3s ease-in-out infinite'
 			}
 		}
 	},
