@@ -190,9 +190,8 @@ export const Map: React.FC<MapProps> = ({
   const handleSetToken = () => {
     if (token.trim()) {
       mapboxToken = token.trim();
-      localStorage.setItem('mapbox_token', mapboxToken); // Save for future sessions
+      localStorage.setItem('mapbox_token', mapboxToken);
       setMapError(null);
-      // Force re-initialize the map
       if (map.current) {
         map.current.remove();
         map.current = null;
@@ -212,8 +211,8 @@ export const Map: React.FC<MapProps> = ({
   }, []);
   
   return (
-    <div className="relative w-full h-[500px] rounded-lg overflow-hidden">
-      {!mapboxToken && (
+    <div className="relative w-full h-full rounded-lg overflow-hidden">
+      {!mapboxToken ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/95 dark:bg-gray-800/95 z-20 p-6 rounded-lg">
           <div className="max-w-md w-full space-y-4">
             <Alert variant="destructive" className="mb-4">
@@ -236,9 +235,9 @@ export const Map: React.FC<MapProps> = ({
             </div>
           </div>
         </div>
-      )}
+      ) : null}
       
-      {mapError && (
+      {mapError ? (
         <div className="absolute top-4 left-4 right-4 z-30">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
@@ -246,12 +245,12 @@ export const Map: React.FC<MapProps> = ({
             <AlertDescription>{mapError}</AlertDescription>
           </Alert>
         </div>
-      )}
+      ) : null}
       
       <div ref={mapContainer} className="w-full h-full" />
       
       {/* Loading overlay */}
-      {isAnalyzing && (
+      {isAnalyzing ? (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-10 rounded-lg">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-pulse-subtle">
             <div className="flex flex-col items-center">
@@ -270,8 +269,7 @@ export const Map: React.FC<MapProps> = ({
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
-

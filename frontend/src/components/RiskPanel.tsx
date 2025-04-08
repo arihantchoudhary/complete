@@ -1,115 +1,92 @@
 
 import React from 'react';
-import { AlertTriangle, Shield, AlertCircle, TrendingUp, Info } from 'lucide-react';
+import { AlertTriangle, Shield, AlertCircle, TrendingUp, TrendingDown, Info } from 'lucide-react';
 
 interface RiskPanelProps {
   riskScore: number;
 }
 
 export const RiskPanel: React.FC<RiskPanelProps> = ({ riskScore }) => {
-  // Determine risk level and color based on score
-  const getRiskLevel = () => {
-    if (riskScore < 25) return { level: 'Low', color: 'green' };
-    if (riskScore < 50) return { level: 'Moderate', color: 'yellow' };
-    if (riskScore < 75) return { level: 'High', color: 'orange' };
-    return { level: 'Very High', color: 'red' };
-  };
-  
-  const { level, color } = getRiskLevel();
-  
-  // Determine factors based on risk level (mock data)
-  const getRiskFactors = () => {
-    const commonFactors = [
-      { icon: AlertTriangle, text: 'Geopolitical stability factors', value: riskScore > 40 ? 'Unstable' : 'Stable' },
-      { icon: TrendingUp, text: 'Market volatility', value: riskScore > 30 ? 'High' : 'Low' },
-      { icon: AlertCircle, text: 'Regulatory compliance', value: riskScore > 50 ? 'Complex' : 'Standard' },
-    ];
-    
-    if (riskScore > 60) {
-      commonFactors.push({ icon: Shield, text: 'Security concerns', value: 'Significant' });
-    }
-    
-    return commonFactors;
-  };
-  
-  const riskFactors = getRiskFactors();
-  
+  // Hardcoded data for demo
+  const riskFactors = [
+    { id: 1, category: 'Geopolitical', severity: 'high', trend: 'increasing' },
+    { id: 2, category: 'Economic', severity: 'medium', trend: 'stable' },
+    { id: 3, category: 'Environmental', severity: 'low', trend: 'decreasing' },
+    { id: 4, category: 'Operational', severity: 'high', trend: 'increasing' },
+  ];
+
+  const components = [
+    { id: 1, name: 'Lithium-ion battery', risk: 85 },
+    { id: 2, name: 'Display panel', risk: 67 },
+    { id: 3, name: 'Microprocessor', risk: 92 },
+  ];
+
   return (
-    <div>
+    <div className="glass-card p-4 shadow-lg border border-gray-200">
       <h2 className="text-xl font-semibold mb-4">Risk Assessment</h2>
       
-      {/* Risk score visualization */}
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Risk Score</span>
-          <span className={`text-sm font-semibold ${
-            color === 'green' ? 'text-green-600 dark:text-green-400' :
-            color === 'yellow' ? 'text-yellow-600 dark:text-yellow-400' :
-            color === 'orange' ? 'text-orange-600 dark:text-orange-400' :
-            'text-red-600 dark:text-red-400'
-          }`}>
-            {level} ({riskScore}/100)
-          </span>
-        </div>
-        
-        <div className="h-2.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-          <div 
-            className={`h-full rounded-full transition-all duration-500 ${
-              color === 'green' ? 'bg-green-500' :
-              color === 'yellow' ? 'bg-yellow-500' :
-              color === 'orange' ? 'bg-orange-500' :
-              'bg-red-500'
-            }`}
-            style={{ width: `${riskScore}%` }}
-          ></div>
+        <h3 className="text-lg font-medium mb-2">Overall Risk Score</h3>
+        <div className="flex items-center space-x-2">
+          <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold bg-gradient-to-br from-red-500 to-yellow-500 text-white shadow-lg">
+            {riskScore}
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">
+              Risk level: <span className="font-medium text-red-600">High</span>
+            </p>
+            <p className="text-sm text-gray-500">
+              Trend: <TrendingUp className="inline h-4 w-4 text-yellow-500" />
+            </p>
+          </div>
         </div>
       </div>
       
-      {/* Risk factors */}
-      <div className="space-y-3">
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Key Risk Factors</h3>
-        
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-2">Risk Factors</h3>
         <div className="space-y-2">
-          {riskFactors.map((factor, index) => (
-            <div key={index} className="flex items-center justify-between text-sm">
-              <div className="flex items-center">
-                <factor.icon className={`h-4 w-4 mr-2 ${
-                  factor.value === 'Unstable' || factor.value === 'High' || factor.value === 'Complex' || factor.value === 'Significant'
-                    ? 'text-orange-500 dark:text-orange-400'
-                    : 'text-green-500 dark:text-green-400'
-                }`} />
-                <span className="text-gray-700 dark:text-gray-300">{factor.text}</span>
-              </div>
-              <span className={`font-medium ${
-                factor.value === 'Unstable' || factor.value === 'High' || factor.value === 'Complex' || factor.value === 'Significant'
-                  ? 'text-orange-600 dark:text-orange-400'
-                  : 'text-green-600 dark:text-green-400'
+          {riskFactors.map((factor) => (
+            <div key={factor.id} className="flex items-center space-x-2 p-2 rounded-md bg-white dark:bg-gray-800 shadow">
+              <AlertTriangle className={`h-5 w-5 ${
+                factor.severity === 'high' ? 'text-red-500' :
+                factor.severity === 'medium' ? 'text-yellow-500' :
+                'text-green-500'
+              }`} />
+              <span className="text-sm font-medium">{factor.category}</span>
+              <span className={`text-xs px-2 py-0.5 rounded-full ml-auto ${
+                factor.severity === 'high' ? 'bg-red-100 text-red-800' :
+                factor.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-green-100 text-green-800'  
               }`}>
-                {factor.value}
+                {factor.severity}
+              </span>
+              <span className="text-xs text-gray-500">
+                {factor.trend === 'increasing' ? <TrendingUp className="inline h-4 w-4" /> : 
+                 factor.trend === 'decreasing' ? <TrendingDown className="inline h-4 w-4" /> :
+                 <div className="inline-block w-4 h-4 bg-gray-400 rounded-full"></div>}
               </span>
             </div>
           ))}
         </div>
       </div>
       
-      {/* Recommendation */}
-      <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-        <div className="flex">
-          <div className="flex-shrink-0">
-            <Info className="h-5 w-5 text-blue-500" />
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-blue-800 dark:text-blue-300">Recommendation</h3>
-            <div className="mt-2 text-sm text-blue-700 dark:text-blue-200">
-              <p>
-                {riskScore < 40 
-                  ? "This route appears to have acceptable risk levels. Standard precautions are sufficient."
-                  : riskScore < 70
-                    ? "Additional documentation and insurance recommended. Review compliance requirements."
-                    : "Consider alternative routes or enhanced security measures. Full risk assessment advised before proceeding."}
-              </p>
+      <div>
+        <h3 className="text-lg font-medium mb-2">Component Risk</h3>
+        <div className="space-y-2">
+          {components.map((component) => (
+            <div key={component.id} className="p-2 rounded-md bg-white dark:bg-gray-800 shadow">
+              <div className="flex justify-between mb-2">
+                <span className="text-sm font-medium">{component.name}</span>
+                <span className="text-sm font-bold text-red-600">{component.risk}%</span>
+              </div>
+              <div className="h-2 bg-gray-200 rounded-full">
+                <div 
+                  className="h-2 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full"
+                  style={{ width: `${component.risk}%` }}  
+                ></div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
