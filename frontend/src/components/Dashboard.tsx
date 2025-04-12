@@ -1,7 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
-import { Sidebar } from './Sidebar';
-import { Header } from './Header';
+import React, { useState } from 'react';
 import { Map } from './Map';
 import { RouteForm } from './RouteForm';
 import { RiskPanel } from './RiskPanel';
@@ -13,7 +11,6 @@ const Dashboard = () => {
   const [endLocation, setEndLocation] = useState<string>('');
   const [route, setRoute] = useState<any | null>(null);
   const [riskScore, setRiskScore] = useState<number | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   
   const analyzeRoute = async (start: string, end: string) => {
@@ -56,13 +53,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Sidebar */}
-      <Sidebar isOpen={isMobileMenuOpen} toggleSidebar={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-      
+    <div className="flex flex-col flex-1 bg-gray-50 dark:bg-gray-900">
       {/* Main Content */}
       <div className="flex flex-col flex-1 w-full overflow-hidden">
-        <Header toggleSidebar={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         
         <main className="flex-1 relative overflow-y-auto focus:outline-none p-4 md:p-6">
           <div className="max-w-7xl mx-auto">

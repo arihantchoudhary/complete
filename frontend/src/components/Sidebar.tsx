@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Globe, BarChart2, AlertTriangle, Anchor, Box, Compass, LineChart, HelpCircle, Settings } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Globe, BarChart2, AlertTriangle, Anchor, Box, Compass, LineChart, Truck, DollarSign } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -9,18 +10,9 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const navItems = [
-    { icon: Globe, label: 'Route Analysis', active: true },
-    { icon: BarChart2, label: 'Statistics' },
-    { icon: AlertTriangle, label: 'Risk Reports' },
-    { icon: Anchor, label: 'Vessel Tracking' },
-    { icon: Box, label: 'Cargo Management' },
-    { icon: Compass, label: 'Navigation Tools' },
-    { icon: LineChart, label: 'Market Insights' },
-  ];
-  
-  const footerItems = [
-    { icon: HelpCircle, label: 'Support' },
-    { icon: Settings, label: 'Settings' }
+    { icon: Globe, label: 'Route Analysis', path: '/' },
+    { icon: Truck, label: 'Supply Chain Disruptions', path: '/supply-chain-disruptions' },
+    { icon: DollarSign, label: 'Economic Impact', path: '/economic-impact' },
   ];
 
   return (
@@ -50,31 +42,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           {/* Nav items */}
           <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
             {navItems.map((item, index) => (
-              <button 
+              <Link
                 key={index}
-                className={`flex items-center w-full px-3 py-2.5 text-sm rounded-lg transition-colors 
-                          ${item.active ? 
-                            'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-medium' : 
-                            'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`}
-              >
-                <item.icon className={`h-5 w-5 mr-2 ${item.active ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400'}`} />
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
-          
-          {/* Footer */}
-          <div className="p-3 border-t border-gray-200 dark:border-gray-800">
-            {footerItems.map((item, index) => (
-              <button 
-                key={index}
+                to={item.path}
                 className="flex items-center w-full px-3 py-2.5 text-sm rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
                 <item.icon className="h-5 w-5 mr-2 text-gray-500 dark:text-gray-400" />
                 <span>{item.label}</span>
-              </button>
+              </Link>
             ))}
           </div>
+          
           
           {/* User */}
           <div className="p-4 border-t border-gray-200 dark:border-gray-800">
