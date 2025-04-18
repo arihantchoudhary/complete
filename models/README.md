@@ -1,160 +1,92 @@
-# LLM Interface for OpenRouter
+#  API Models
 
-A Python interface for interacting with various language models through the OpenRouter API. This package provides a unified interface for accessing multiple LLM providers including OpenAI GPT, Anthropic Claude, Google Gemini, Meta Llama, DeepSeek, Qwen, and Sonar.
+This directory contains the API models and clients for the LogiTrade application.
 
-## Features
+## Overview
 
-- **Unified API**: Consistent interface for all supported models
-- **Conversation Management**: Maintains chat history for contextual conversations
-- **Multimodal Support**: Text and image inputs for compatible models
-- **Parameter Customization**: Fine-tune model behavior with extensive parameter options
-- **Performance Tracking**: Integration with benchmark data (requires external API setup)
-- **Streaming Support**: Stream responses for better user experience
+- `models.py`: Core LLM factory and model instance classes for interacting with various LLM APIs
+- `example.py`: Usage examples for the LLM models
+- `grok3_client.py`: Client for interacting with the X.AI Grok-3 API for tariff information
+- `tariff_api.py`: Flask API for serving tariff data to the frontend
 
-## Installation
+## Grok-3 Tariff Search Implementation
 
-1. Ensure you have Python 3.7+ installed
-2. Install required dependencies:
+The Grok-3 API integration allows the dashboard to display real-time tariff information for trade routes. This feature helps users make informed decisions by providing up-to-date information on tariffs, duties, and trade agreements.
 
-```bash
-pip install openai python-dotenv requests
-```
+### Setup Instructions
 
-3. Create a `.env` file in your project directory with your OpenRouter API key:
+1. Create a `.env` file in the `/models` directory with your Grok-3 API key:
+   ```
+   GROK3_API_KEY=xai-your-api-key-here
+   ```
 
-```
-OPENROUTER_API_KEY="your-openrouter-api-key"
-```
+2. Install the required dependencies:
+   ```bash
+   pip install flask flask-cors requests python-dotenv
+   ```
 
-## Quick Start
+3. Run the tariff API server:
+   ```bash
+   cd models
+   python tariff_api.py
+   ```
 
-```python
-from models import LLMFactory
+4. In a separate terminal, run the frontend development server:
+   ```bash
+   cd frontend
+   npm run dev
+   ```
 
-# Initialize the factory
-factory = LLMFactory(site_url="yourapp.com", site_name="Your App Name")
+### API Endpoints
 
-# Create a GPT model instance
-gpt = factory.createGPT()
+The tariff API provides the following endpoints:
 
-# Ask a question
-response = gpt.ask("What are the top 3 programming languages in 2025?")
-print(f"Response: {response}")
+- `GET /api/tariffs`: Fetch tariff information for a specific trade route and item
+  - Query parameters:
+    - `origin`: Country of origin (required)
+    - `destination`: Destination country (required)
+    - `item_type`: Type of item being shipped (required)
+    - `hs_code`: Harmonized System code (optional)
 
-# Create a Claude model and have a conversation
-claude = factory.createClaude(temperature=0.3)
-claude.set_system_prompt("You are a helpful AI assistant.")
+- `GET /api/hs-code`: Get the Harmonized System code for a specific item description
+  - Query parameters:
+    - `description`: Detailed description of the item (required)
 
-# First question
-response1 = claude.ask("What is machine learning?")
-print(f"Response 1: {response1}")
+- `GET /api/mock-tariffs`: Get mock tariff information (for testing without API calls)
 
-# Follow-up (with conversation history)
-response2 = claude.ask("Give me some practical applications.")
-print(f"Response 2: {response2}")
-```
+### Implementation Details
 
-## Available Models
+#### Backend Components
 
-- **GPT**: `createGPT()` - OpenAI's GPT models
-- **Claude**: `createClaude()` - Anthropic's Claude models
-- **Gemini**: `createGemini()` - Google's Gemini models
-- **Llama**: `createLlama()` - Meta's Llama models
-- **DeepSeek**: `createDeepSeek()` - DeepSeek models
-- **Qwen**: `createQwen()` - Qwen models
-- **Sonar**: `createSonar()` - Sonar models
+1. **Grok3Client**: A Python client for interfacing with the X.AI Grok-3 API
+   - Handles authentication and API requests
+   - Processes responses and formats data consistently
+   - Provides fallback mechanisms for handling API failures
 
-## LLMFactory Class
+2. **Flask API Server**: A lightweight server that exposes tariff data to the frontend
+   - Serves as a middleware between the frontend and the Grok-3 API
+   - Provides error handling and response formatting
+   - Includes a mock endpoint for testing without API calls
 
-The factory class creates model instances and manages global configurations.
+#### Frontend Components
 
-### Initialization
+1. **TariffPanel**: A React component that displays tariff information
+   - Shows tariff rates, additional fees, and trade agreements
+   - Handles loading states and errors gracefully
+   - Provides fallback data when the API is unavailable
 
-```python
-factory = LLMFactory(
-    site_url="",       # Your site URL for OpenRouter attribution (optional)
-    site_name="",      # Your site name for OpenRouter attribution (optional)
-    api_key_path=".env"  # Path to .env file with OPENROUTER_API_KEY
-)
-```
+2. **Integration with SupplyChainDisruptions**: The tariff panel is integrated into the dashboard
+   - Displays real-time tariff data based on the selected route and item type
+   - Updates automatically when route or item type changes
 
-### Methods
+### Usage
 
-- `createXXX(model_name=None, **params)` - Create a model instance (XXX is the model name)
-- `update_benchmark_data(force=False)` - Update performance benchmark data
-- `get_model_performance(model_name)` - Get performance metrics for a specific model
+The tariff information feature is automatically loaded when viewing trade routes on the Supply Chain Disruptions page. The panel shows:
 
-## ModelInstance Class
+- Current tariff rates
+- Additional fees and taxes
+- Applicable trade agreements
+- Recent policy changes
+- Predicted future changes
 
-Each model instance represents a stateful conversation with a specific model.
-
-### Methods
-
-- `ask(prompt, images=None, stream=False, **params)` - Send a prompt and get a response
-- `stream(prompt, images=None, **params)` - Stream a response from the model
-- `set_system_prompt(system_prompt)` - Set or update the system prompt
-- `set_context_length(max_tokens)` - Set the maximum response length
-- `clear_history(keep_system=True)` - Clear conversation history
-- `get_history()` - Get the full conversation history
-- `get_performance_metrics()` - Get performance metrics for this model
-
-### Parameters
-
-Common parameters you can set when creating a model or during an `ask()` call:
-
-- `temperature` - Controls randomness (0.0 to 1.0)
-- `max_tokens` - Maximum tokens to generate
-- `top_p` - Nucleus sampling parameter
-- `frequency_penalty` - Penalty for repeating tokens
-- `presence_penalty` - Penalty for repeating topics
-
-## Benchmark Data Integration
-
-The system is designed to work with an external benchmarking API. The benchmarking API integration is currently a placeholder that you'll need to implement:
-
-```python
-# Update the update_benchmark_data method in LLMFactory class
-def update_benchmark_data(self, force: bool = False):
-    # Replace with your actual benchmark API endpoint
-    api_url = "https://your-benchmark-api.com/latest"
-    # Implementation...
-```
-
-## Examples
-
-See the `example.py` file for detailed usage examples including:
-
-1. Basic API calls
-2. Multi-turn conversations
-3. Multimodal inputs with images
-4. Model comparison
-5. Response streaming
-6. Parameter customization
-
-## Extending the Codebase
-
-### Adding a New Model
-
-To add support for a new LLM provider:
-
-1. Add the model's default identifier in the `model_mappings` dictionary in `LLMFactory.__init__()`
-2. Create a new create method in `LLMFactory` (follow the pattern of existing methods)
-3. The implementation should instantiate and return a new `ModelInstance`
-
-### Customizing the Benchmark System
-
-To implement your own benchmark tracking:
-
-1. Modify the `update_benchmark_data` method in `LLMFactory`
-2. Update the `get_model_performance` and `get_performance_metrics` methods as needed
-
-## Troubleshooting
-
-- **API Key Issues**: Ensure your OpenRouter API key is properly set in the `.env` file
-- **Model Availability**: Check that the requested model is available on OpenRouter
-- **Rate Limits**: Handle API rate limits by implementing appropriate error handling
-- **Large Responses**: For large responses, consider using the streaming API
-
-## License
-
-MIT
+This data is fetched dynamically from the Grok-3 API, which uses its large language model capabilities to provide the most up-to-date tariff information based on origin, destination, and item type.

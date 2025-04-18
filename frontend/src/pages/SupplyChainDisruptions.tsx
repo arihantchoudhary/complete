@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { BarChart, Clock, Anchor, DollarSign, TrendingUp, Package } from 'lucide-react';
+import { TariffPanel } from '../components/TariffPanel';
 import { 
   AreaChart, 
   Area, 
@@ -343,38 +344,16 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({ route, riskScore, itemTy
                   </div>
                 </div>
                 
-                {/* Tax and Tariff Information */}
-                <div className="glass-panel rounded-lg p-4 border border-gray-200 dark:border-gray-800">
-                  <h5 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Tax & Tariff Information
-                  </h5>
-                  
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center pb-2 border-b border-gray-100 dark:border-gray-800">
-                      <span className="text-gray-600 dark:text-gray-400">Tariff Rate</span>
-                      <span className="font-medium text-gray-900 dark:text-gray-100">
-                        {tariffRate}%
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center pb-2 border-b border-gray-100 dark:border-gray-800">
-                      <span className="text-gray-600 dark:text-gray-400">HS Code</span>
-                      <span className="font-medium text-gray-900 dark:text-gray-100">
-                        {selectedItemType.type === 'Fashion' ? '6204.44' :
-                         selectedItemType.type === 'Electronics' ? '8517.12' :
-                         selectedItemType.type === 'Food' ? '2106.90' :
-                         selectedItemType.type === 'Automotive' ? '8708.99' : '3004.90'}
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600 dark:text-gray-400">Import Duty</span>
-                      <span className="font-medium text-gray-900 dark:text-gray-100">
-                        ${Math.floor(estimatedCost * (tariffRate / 100)).toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                {/* Real-time Tariff Information from Grok-3 API */}
+                <TariffPanel 
+                  origin={route.origin || "China"}
+                  destination={route.destination || "United States"}
+                  itemType={selectedItemType.type}
+                  hsCode={selectedItemType.type === 'Fashion' ? '6204.44' :
+                          selectedItemType.type === 'Electronics' ? '8517.12' :
+                          selectedItemType.type === 'Food' ? '2106.90' :
+                          selectedItemType.type === 'Automotive' ? '8708.99' : '3004.90'}
+                />
                 
                 {/* Tax Compliance Facts */}
                 <div className="glass-panel rounded-lg p-4 border border-gray-200 dark:border-gray-800">
