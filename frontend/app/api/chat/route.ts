@@ -1,4 +1,3 @@
-import { OpenAIStream, StreamingTextResponse } from 'ai';
 import OpenAI from 'openai';
 
 // Initialize OpenAI client
@@ -8,6 +7,25 @@ const openai = new OpenAI({
 
 // Set runtime to edge
 export const runtime = 'edge';
+
+// Function to create a streaming response from OpenAI's API response
+function createStreamFromAIResponse(response: any) {
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+  
+  return new ReadableStream({
+    async start(controller) {
+      // Process each chunk from the OpenAI response
+      for await (const chunk of response) {
+        const content = chunk.choices[0]?.delta?.content || '';
+        if (content) {
+          controller.enqueue(encoder.encode(content));
+        }
+      }
+      controller.close();
+    },
+  });
+}
 
 export async function POST(req: Request) {
   try {
@@ -22,6 +40,7 @@ export async function POST(req: Request) {
       return new Response('OpenAI API key is not configured', { status: 500 });
     }
 
+    // Create OpenAI API request
     const response = await openai.chat.completions.create({
       model: 'gpt-4-1106-preview',
       stream: true,
@@ -77,10 +96,17 @@ Begin each response with a brief summary of your findings, then dive into analys
       ],
     });
 
-    const stream = OpenAIStream(response);
-    return new StreamingTextResponse(stream);
+    // Create a streaming response
+    const stream = createStreamFromAIResponse(response);
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        'X-Content-Type-Options': 'nosniff',
+      },
+    });
   } catch (error) {
     console.error('Chat API Error:', error);
     return new Response('Error processing chat request', { status: 500 });
   }
-} 
+}
