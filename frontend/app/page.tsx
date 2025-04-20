@@ -214,6 +214,211 @@ export default function Home() {
             ))}
           </div>
           
+          {/* Supply Chain Process & Key Risk Areas */}
+          <div className="w-full max-w-6xl mx-auto pt-16 pb-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-3">Supply Chain Process & Key Risk Areas</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Understanding the end-to-end supply chain and its vulnerabilities
+              </p>
+            </div>
+            
+            {/* Process Stages */}
+            <Card className="mb-8 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl">1. Process Stages</CardTitle>
+                <CardDescription>
+                  The end-to-end supply chain is typically divided into five core stages
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-primary/10">
+                        <th className="p-3 text-left border">Stage</th>
+                        <th className="p-3 text-left border">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="p-3 border font-medium">Suppliers</td>
+                        <td className="p-3 border">Raw-material sourcing and procurement</td>
+                      </tr>
+                      <tr>
+                        <td className="p-3 border font-medium">Logistics</td>
+                        <td className="p-3 border">Transportation of parts/materials to warehouses</td>
+                      </tr>
+                      <tr>
+                        <td className="p-3 border font-medium">Inventory</td>
+                        <td className="p-3 border">Warehousing, storage, and stock management</td>
+                      </tr>
+                      <tr>
+                        <td className="p-3 border font-medium">Manufacturing</td>
+                        <td className="p-3 border">Conversion of parts into finished goods</td>
+                      </tr>
+                      <tr>
+                        <td className="p-3 border font-medium">Customer</td>
+                        <td className="p-3 border">Delivery to and fulfillment for end users</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Risk & Performance Issues */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              {/* Upstream Risks */}
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-2xl">2. Upstream Risks</CardTitle>
+                  <CardDescription>
+                    Top-row issues and their impacts
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="bg-primary/10">
+                          <th className="p-2 text-left border">Stage</th>
+                          <th className="p-2 text-left border">Top‐row Issue</th>
+                          <th className="p-2 text-left border">Impact</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-sm">
+                        <tr>
+                          <td className="p-2 border font-medium">Suppliers</td>
+                          <td className="p-2 border">Price variances</td>
+                          <td className="p-2 border">Budget overruns, margin erosion</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium"></td>
+                          <td className="p-2 border">Supplier issues</td>
+                          <td className="p-2 border">Quality defects, delayed shipments</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Logistics</td>
+                          <td className="p-2 border">Order delays</td>
+                          <td className="p-2 border">Missed production schedules</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium"></td>
+                          <td className="p-2 border">Logistic bottlenecks</td>
+                          <td className="p-2 border">Congestion, higher freight costs</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Inventory</td>
+                          <td className="p-2 border">Part stock-outs</td>
+                          <td className="p-2 border">Line stoppages, expedited freight fees</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium"></td>
+                          <td className="p-2 border">Excess inventory</td>
+                          <td className="p-2 border">Increased holding costs, obsolescence</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Manufacturing</td>
+                          <td className="p-2 border">Schedule conflicts</td>
+                          <td className="p-2 border">Under-or over-utilized capacity</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium"></td>
+                          <td className="p-2 border">Unplanned downtime</td>
+                          <td className="p-2 border">Yield losses, overtime expenses</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Customer</td>
+                          <td className="p-2 border">Poor OTIF (On-Time In-Full)</td>
+                          <td className="p-2 border">Customer dissatisfaction, penalties</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium"></td>
+                          <td className="p-2 border">Order cancellations</td>
+                          <td className="p-2 border">Demand-supply mismatch, lost revenue</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              {/* Downstream Risks */}
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-2xl">2. Downstream Risks</CardTitle>
+                  <CardDescription>
+                    Bottom-row issues and their impacts
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="bg-primary/10">
+                          <th className="p-2 text-left border">Stage</th>
+                          <th className="p-2 text-left border">Bottom-row Issue</th>
+                          <th className="p-2 text-left border">Impact</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-sm">
+                        <tr>
+                          <td className="p-2 border font-medium">Suppliers</td>
+                          <td className="p-2 border">Supplier issues</td>
+                          <td className="p-2 border">(same as above)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Logistics</td>
+                          <td className="p-2 border">Logistic bottlenecks</td>
+                          <td className="p-2 border">(same as above)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Inventory</td>
+                          <td className="p-2 border">Excess inventory</td>
+                          <td className="p-2 border">(same as above)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Manufacturing</td>
+                          <td className="p-2 border">Unplanned downtime</td>
+                          <td className="p-2 border">(same as above)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Logistics→Customer</td>
+                          <td className="p-2 border">Transit delays</td>
+                          <td className="p-2 border">Delivery tardiness, stockouts at point of sale</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border font-medium">Customer</td>
+                          <td className="p-2 border">Demand uncertainties</td>
+                          <td className="p-2 border">Forecast errors, bullwhip effect</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
+            {/* Interdependencies */}
+            <Card className="mb-8 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl">3. Summary of Interdependencies</CardTitle>
+                <CardDescription>
+                  How risks cascade through the supply chain
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 text-muted-foreground">
+                  <p>Supplier fluctuations (price & availability) cascade into logistics and inventory, leading to production hiccups.</p>
+                  <p>Logistic bottlenecks increase lead times, forcing either excess inventory or stock-outs.</p>
+                  <p>Inventory imbalances drive schedule conflicts and downtime on the shop floor.</p>
+                  <p>Finally, manufacturing delays and transit issues degrade OTIF, resulting in order cancellations or customer churn.</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          
           {/* Pricing Plans */}
           <div className="w-full max-w-6xl mx-auto pt-16 pb-20">
             <div className="text-center mb-12">
