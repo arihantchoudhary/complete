@@ -25,7 +25,14 @@ import {
   BarChart,
   Rocket,
   Phone,
+  ChevronDown,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ClientLayout } from "@/components/client-layout";
 
 export default function Home() {
@@ -47,16 +54,38 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-4 justify-center">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-primary/20 transition-all"
-                  asChild
-                >
-                  <Link href="/demo">
-                    Demo
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
+                <div className="relative inline-block">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="lg"
+                        className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-primary/20 transition-all flex items-center"
+                      >
+                        Demo
+                        <ChevronDown className="ml-2 h-5 w-5" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-40">
+                      <DropdownMenuItem asChild>
+                        <Link href="/demo" className="cursor-pointer w-full">
+                          Aditya Demo
+                        </Link>
+                      </DropdownMenuItem>
+                      {/* Commented code for future demo options
+                      <DropdownMenuItem asChild>
+                        <Link href="#" className="cursor-pointer w-full">
+                          Adam Demo
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="#" className="cursor-pointer w-full">
+                          Arihant Demo
+                        </Link>
+                      </DropdownMenuItem>
+                      */}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
                 
                 <Button
                   size="lg"

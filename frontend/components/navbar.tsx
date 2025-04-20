@@ -1,9 +1,15 @@
 "use client";
 
-import { Truck, Phone } from "lucide-react";
+import { Truck, Phone, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const { theme } = useTheme();
@@ -21,9 +27,32 @@ export function Navbar() {
         
         <div className="flex items-center space-x-4">
           <nav className="hidden md:flex items-center space-x-2">
-            <Link href="/demo">
-              <Button variant="ghost" className="rounded-full">Demo</Button>
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="rounded-full flex items-center gap-1">
+                  Demo <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem asChild>
+                  <Link href="/demo" className="w-full cursor-pointer">
+                    Aditya Demo
+                  </Link>
+                </DropdownMenuItem>
+                {/* Commented code for future demo options
+                <DropdownMenuItem asChild>
+                  <Link href="#" className="w-full cursor-pointer">
+                    Adam Demo
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="#" className="w-full cursor-pointer">
+                    Arihant Demo
+                  </Link>
+                </DropdownMenuItem>
+                */}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Link href="/report">
               <Button variant="ghost" className="rounded-full">Report</Button>
             </Link>

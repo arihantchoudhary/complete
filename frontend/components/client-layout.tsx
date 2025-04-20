@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
-import { Logo } from "./logo";
+import { Navbar } from "@/components/navbar";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -16,7 +15,8 @@ export function ClientLayout({ children }: ClientLayoutProps) {
 
   return (
     <div className="relative min-h-screen">
-      <div className="fixed top-0 left-0 right-0 z-20 flex h-16 items-center gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
+      <Navbar />
+      <div className="fixed top-16 left-4 z-20">
         <Button
           variant="ghost"
           size="icon"
@@ -25,10 +25,6 @@ export function ClientLayout({ children }: ClientLayoutProps) {
         >
           {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
         </Button>
-        <div className="flex flex-1 items-center justify-between">
-          <Logo />
-          <ThemeToggle />
-        </div>
       </div>
       <div className="flex pt-16">
         <div
