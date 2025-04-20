@@ -9,9 +9,10 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      "rounded-lg border text-card-foreground shadow-sm", // Removed bg-card utility
       className
     )}
+    style={{ backgroundColor: 'hsl(var(--card)) !important' }} // Add !important to force override
     {...props}
   />
 ))

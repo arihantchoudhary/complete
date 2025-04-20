@@ -6,7 +6,7 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
+    --card: 0 0% 100%; /* Ensure card is white in light mode */
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
@@ -23,7 +23,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --radius: 1.5rem; /* Increased further for more rounding */
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
@@ -37,13 +37,14 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+    /* Removed --shadow-color-rgb */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222.2 84% 4.9%; /* Keep dark background */
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 0%; /* Set card to black in dark mode */
+    --card-foreground: 210 40% 98%; /* Ensure text on card is light */
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
     --primary: 217.2 91.2% 59.8%;
@@ -72,6 +73,7 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+    /* Removed --shadow-color-rgb */
   }
 }
 
@@ -81,6 +83,50 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Apply theme-aware shadow to bordered components */
+@layer components {
+  .card,
+  .input,
+  .textarea,
+  .select-trigger, /* Shadcn Select Trigger */
+  .popover-content, /* Shadcn Popover */
+  .dialog-content, /* Shadcn Dialog */
+  .button[data-variant="outline"] /* Targeting outline buttons specifically */
+   {
+    /* Removed box-shadow rule */
+    /* Ensure relative positioning for pseudo-element */
+    @apply relative z-0;
+  }
+
+  /* Add gradient shadow via pseudo-element */
+  .card::after,
+  .input::after,
+  .textarea::after,
+  .select-trigger::after,
+  .popover-content::after,
+  .dialog-content::after,
+  .button[data-variant="outline"]::after {
+    content: '';
+    position: absolute;
+    inset: -3px; /* Control shadow spread */
+    z-index: -1;
+    border-radius: calc(var(--radius) + 3px); /* Match parent rounding + spread */
+    @apply bg-[conic-gradient(from_90deg,hsl(var(--primary)/0.6),hsl(var(--destructive)/0.5),hsl(var(--primary)/0.6))];
+    filter: blur(12px); /* Control shadow blur */
+  }
+
+  /* Dark mode gradient shadow */
+  .dark .card::after,
+  .dark .input::after,
+  .dark .textarea::after,
+  .dark .select-trigger::after,
+  .dark .popover-content::after,
+  .dark .dialog-content::after,
+  .dark .button[data-variant="outline"]::after {
+     @apply bg-[conic-gradient(from_90deg,hsl(var(--primary)/0.4),hsl(var(--destructive)/0.3),hsl(var(--primary)/0.4))];
   }
 }
 

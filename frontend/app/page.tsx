@@ -38,9 +38,11 @@ import { ClientLayout } from "@/components/client-layout";
 export default function Home() {
   return (
     <ClientLayout>
-      <div className="min-h-screen bg-gradient-to-b from-background to-background/95">
+      {/* Removed bg-gradient class, as gradient is handled in ClientLayout */}
+      <div className="min-h-screen">
         <div className="flex flex-col gap-6 p-6 pt-8 overflow-auto">
           {/* Hero Panel */}
+          {/* Relying on Card component's inline style for background */}
           <Card className="w-full max-w-4xl mx-auto relative overflow-hidden group shadow-2xl hover:shadow-primary/20 transition-all duration-300">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="flex flex-col items-center text-center p-12 space-y-8">
@@ -71,22 +73,11 @@ export default function Home() {
                           Aditya Demo
                         </Link>
                       </DropdownMenuItem>
-                      {/* Commented code for future demo options
-                      <DropdownMenuItem asChild>
-                        <Link href="#" className="cursor-pointer w-full">
-                          Adam Demo
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href="#" className="cursor-pointer w-full">
-                          Arihant Demo
-                        </Link>
-                      </DropdownMenuItem>
-                      */}
+                      {/* Commented code for future demo options */}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                
+
                 <Button
                   size="lg"
                   variant="outline"
@@ -97,7 +88,7 @@ export default function Home() {
                     Report
                   </Link>
                 </Button>
-                
+
                 <Button
                   size="lg"
                   variant="secondary"
@@ -140,18 +131,9 @@ export default function Home() {
                   "Transform supply chain management with predictive analytics",
                 icon: Brain,
                 details: [
-                  {
-                    icon: Shield,
-                    text: "Predict and prevent supply chain disruptions",
-                  },
-                  {
-                    icon: Target,
-                    text: "Real-time geopolitical and climate risk tracking",
-                  },
-                  {
-                    icon: TrendingUp,
-                    text: "$1.5T annual cost reduction potential",
-                  },
+                  { icon: Shield, text: "Predict and prevent supply chain disruptions" },
+                  { icon: Target, text: "Real-time geopolitical and climate risk tracking" },
+                  { icon: TrendingUp, text: "$1.5T annual cost reduction potential" },
                 ],
                 market: "$3.48B Supply Chain Risk Management",
               },
@@ -160,18 +142,9 @@ export default function Home() {
                 description: "Visualize and optimize your global supply chain",
                 icon: MapPin,
                 details: [
-                  {
-                    icon: Globe,
-                    text: "Customizable trade routes across land, sea, and air",
-                  },
-                  {
-                    icon: Lightbulb,
-                    text: "Intuitive map-first UI with risk modeling",
-                  },
-                  {
-                    icon: Users,
-                    text: "Collaborative planning tools for teams",
-                  },
+                  { icon: Globe, text: "Customizable trade routes across land, sea, and air" },
+                  { icon: Lightbulb, text: "Intuitive map-first UI with risk modeling" },
+                  { icon: Users, text: "Collaborative planning tools for teams" },
                 ],
                 market: "$8.4B AI in Logistics Market",
               },
@@ -181,23 +154,14 @@ export default function Home() {
                   "Data-driven insights for informed decision making",
                 icon: BarChart,
                 details: [
-                  {
-                    icon: Rocket,
-                    text: "Customizable reports and targeted predictions",
-                  },
-                  {
-                    icon: Brain,
-                    text: "Advanced AI models for risk scoring",
-                  },
-                  {
-                    icon: TrendingUp,
-                    text: "Proactive disruption prevention",
-                  },
+                  { icon: Rocket, text: "Customizable reports and targeted predictions" },
+                  { icon: Brain, text: "Advanced AI models for risk scoring" },
+                  { icon: TrendingUp, text: "Proactive disruption prevention" },
                 ],
                 market: "$25.2M SOM by 2026",
               },
             ].map((feature, i) => (
-              <Card
+              <Card // Relying on Card component's inline style for background
                 key={i}
                 className="h-auto min-h-[600px] w-[400px] flex-shrink-0 group hover:border-primary transition-all relative overflow-hidden shadow-xl hover:shadow-primary/20"
               >
@@ -239,7 +203,7 @@ export default function Home() {
               </Card>
             ))}
           </div>
-          
+
           {/* Supply Chain Process & Key Risk Areas */}
           <div className="w-full max-w-6xl mx-auto pt-16 pb-8">
             <div className="text-center mb-12">
@@ -248,9 +212,9 @@ export default function Home() {
                 Understanding the end-to-end supply chain and its vulnerabilities
               </p>
             </div>
-            
+
             {/* Process Stages */}
-            <Card className="mb-8 shadow-lg">
+            <Card className="mb-8 shadow-lg"> {/* Relying on Card component's inline style */}
               <CardHeader>
                 <CardTitle className="text-2xl">1. Process Stages</CardTitle>
                 <CardDescription>
@@ -292,11 +256,11 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
-            
+
             {/* Risk & Performance Issues */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               {/* Upstream Risks */}
-              <Card className="shadow-lg">
+              <Card className="shadow-lg"> {/* Relying on Card component's inline style */}
                 <CardHeader>
                   <CardTitle className="text-2xl">2. Upstream Risks</CardTitle>
                   <CardDescription>
@@ -369,9 +333,9 @@ export default function Home() {
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Downstream Risks */}
-              <Card className="shadow-lg">
+              <Card className="shadow-lg"> {/* Relying on Card component's inline style */}
                 <CardHeader>
                   <CardTitle className="text-2xl">2. Downstream Risks</CardTitle>
                   <CardDescription>
@@ -425,9 +389,9 @@ export default function Home() {
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Interdependencies */}
-            <Card className="mb-8 shadow-lg">
+            <Card className="mb-8 shadow-lg"> {/* Relying on Card component's inline style */}
               <CardHeader>
                 <CardTitle className="text-2xl">3. Summary of Interdependencies</CardTitle>
                 <CardDescription>
@@ -444,7 +408,7 @@ export default function Home() {
               </CardContent>
             </Card>
           </div>
-          
+
           {/* Pricing Plans */}
           <div className="w-full max-w-6xl mx-auto pt-16 pb-20">
             <div className="text-center mb-12">
@@ -453,10 +417,10 @@ export default function Home() {
                 You only pay for the hours your AI agent is active. Start with our free tools or scale with intelligent automation.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Free Tier */}
-              <Card className="flex flex-col border-2 relative overflow-hidden">
+              <Card className="flex flex-col border-2 relative overflow-hidden"> {/* Relying on Card component's inline style */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-blue-500"></div>
                 <CardHeader>
                   <CardTitle className="text-xl">Free Tools</CardTitle>
@@ -506,9 +470,9 @@ export default function Home() {
                   <Button className="w-full" variant="outline">Get Started Free</Button>
                 </CardFooter>
               </Card>
-              
+
               {/* Pro Tier */}
-              <Card className="flex flex-col border-2 border-primary relative overflow-hidden scale-105 shadow-xl z-10">
+              <Card className="flex flex-col border-2 border-primary relative overflow-hidden scale-105 shadow-xl z-10"> {/* Relying on Card component's inline style */}
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
                 <div className="absolute top-6 right-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</div>
                 <CardHeader>
@@ -570,9 +534,9 @@ export default function Home() {
                   <Button className="w-full">Start Pro Trial</Button>
                 </CardFooter>
               </Card>
-              
+
               {/* Enterprise Tier */}
-              <Card className="flex flex-col border-2 relative overflow-hidden">
+              <Card className="flex flex-col border-2 relative overflow-hidden"> {/* Relying on Card component's inline style */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-600 to-gray-800"></div>
                 <CardHeader>
                   <CardTitle className="text-xl">Enterprise</CardTitle>
@@ -634,7 +598,7 @@ export default function Home() {
                 </CardFooter>
               </Card>
             </div>
-            
+
             <div className="text-center mt-10">
               <p className="text-sm text-muted-foreground">
                 Can't afford a paid plan yet? Try our voice bot and chat bot for free.
@@ -644,7 +608,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          
+
           {/* Founders Section */}
           <div className="w-full max-w-6xl mx-auto pt-16 pb-20">
             <div className="text-center mb-12">
@@ -653,10 +617,10 @@ export default function Home() {
                 Our team combines expertise in business, data science, and AI research to revolutionize supply chain management
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Adam Virani */}
-              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300"> {/* Relying on Card component's inline style */}
                 <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
                   <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
                     AV
@@ -690,9 +654,9 @@ export default function Home() {
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Aditya Pattani */}
-              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300"> {/* Relying on Card component's inline style */}
                 <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
                   <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
                     AP
@@ -726,9 +690,9 @@ export default function Home() {
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Arihant Choudhary */}
-              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300"> {/* Relying on Card component's inline style */}
                 <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
                   <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
                     AC

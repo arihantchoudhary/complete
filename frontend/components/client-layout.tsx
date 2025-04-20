@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Sidebar } from "@/components/sidebar";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from 'react';
+import { Sidebar } from '@/components/sidebar';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+// No longer importing GradientBg here
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -32,11 +33,13 @@ export function ClientLayout({ children }: ClientLayoutProps) {
         >
           <Sidebar isCollapsed={isCollapsed} />
         </div>
+        {/* Removed relative positioning and gradient layers */}
         <main
           className={`flex-1 min-h-screen w-full transition-all duration-300 overflow-x-hidden ${
             isCollapsed ? "ml-[68px]" : "ml-[240px]"
           }`}
         >
+          {/* Removed gradient layers and content wrapper */}
           {children}
         </main>
       </div>
