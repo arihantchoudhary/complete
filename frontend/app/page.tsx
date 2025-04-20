@@ -50,7 +50,6 @@ export default function Home() {
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-primary/20 transition-all"
-                  onClick={() => window.location.href = '/demo'}
                   asChild
                 >
                   <Link href="/demo">
@@ -63,7 +62,6 @@ export default function Home() {
                   size="lg"
                   variant="outline"
                   className="border-primary text-primary hover:bg-primary/10 shadow-lg hover:shadow-primary/20 transition-all"
-                  onClick={() => window.location.href = '/report'}
                   asChild
                 >
                   <Link href="/report">
@@ -75,7 +73,6 @@ export default function Home() {
                   size="lg"
                   variant="secondary"
                   className="shadow-lg transition-all"
-                  onClick={() => window.location.href = 'tel:+12087478900'}
                   asChild
                 >
                   <a href="tel:+12087478900">
@@ -616,6 +613,135 @@ export default function Home() {
               <p className="text-sm font-medium mt-2">
                 Coming soon to help you optimize your supply chain at no cost.
               </p>
+            </div>
+          </div>
+          
+          {/* Founders Section */}
+          <div className="w-full max-w-6xl mx-auto pt-16 pb-20">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-3">Meet Our Founders</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Our team combines expertise in business, data science, and AI research to revolutionize supply chain management
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Adam Virani */}
+              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300">
+                <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                  <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
+                    AV
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-xl">Adam Virani</CardTitle>
+                  <CardDescription className="text-md">
+                    Co-Founder
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
+                        <svg className="h-3 w-3 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 21.25L18.4087 16H22C22.4142 16 22.75 15.6642 22.75 15.25V4.75C22.75 4.33579 22.4142 4 22 4H2C1.58579 4 1.25 4.33579 1.25 4.75V15.25C1.25 15.6642 1.58579 16 2 16H12V21.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <p className="text-sm">UC Berkeley Haas School Of Business '22</p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
+                        <svg className="h-3 w-3 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M21 13V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18H13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M16 20L18 22L22 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <p className="text-sm">Previously at L'Oreal and Microsoft</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              {/* Aditya Pattani */}
+              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300">
+                <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                  <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
+                    AP
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-xl">Aditya Pattani</CardTitle>
+                  <CardDescription className="text-md">
+                    Co-Founder
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
+                        <svg className="h-3 w-3 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 21.25L18.4087 16H22C22.4142 16 22.75 15.6642 22.75 15.25V4.75C22.75 4.33579 22.4142 4 22 4H2C1.58579 4 1.25 4.33579 1.25 4.75V15.25C1.25 15.6642 1.58579 16 2 16H12V21.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <p className="text-sm">UC Berkeley College of Computing Data Science and Society, Economics and Data Science '24</p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
+                        <svg className="h-3 w-3 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M21 13V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18H13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M16 20L18 22L22 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <p className="text-sm">Previously at Airbus, Kaiser Permanente, and Payactiv (fintech unicorn)</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              {/* Arihant Choudhary */}
+              <Card className="flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300">
+                <div className="h-64 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                  <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
+                    AC
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-xl">Arihant Choudhary</CardTitle>
+                  <CardDescription className="text-md">
+                    Co-Founder
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
+                        <svg className="h-3 w-3 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 21.25L18.4087 16H22C22.4142 16 22.75 15.6642 22.75 15.25V4.75C22.75 4.33579 22.4142 4 22 4H2C1.58579 4 1.25 4.33579 1.25 4.75V15.25C1.25 15.6642 1.58579 16 2 16H12V21.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <p className="text-sm">Computer Science and Sustainability '25</p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
+                        <svg className="h-3 w-3 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M21 13V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18H13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M16 20L18 22L22 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <p className="text-sm">Research at Stanford, Berkeley, Intel, Harvard AI labs, World Economic Forum</p>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
+                        <svg className="h-3 w-3 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M14 15C14 15.5523 13.5523 16 13 16H3C2.44772 16 2 15.5523 2 15V9C2 8.44772 2.44772 8 3 8H13C13.5523 8 14 8.44772 14 9V15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M22 15C22 17.2091 20.2091 19 18 19C15.7909 19 14 17.2091 14 15C14 12.7909 15.7909 11 18 11C20.2091 11 22 12.7909 22 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <p className="text-sm">Previously at Klarity (YC) and Eraser.io</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
