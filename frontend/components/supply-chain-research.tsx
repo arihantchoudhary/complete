@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -17,7 +17,7 @@ interface ResearchDataPoint {
   impact: string;
   description: string;
   year: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
 }
 
 const researchData: Record<string, ResearchDataPoint[]> = {

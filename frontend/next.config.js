@@ -2,9 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverActions: {
-      allowedOrigins: ['localhost:3000', 'localhost:3001']
-    },
+    serverActions: true,
   },
   env: {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
