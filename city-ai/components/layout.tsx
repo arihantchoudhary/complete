@@ -1,0 +1,15 @@
+import type React from "react"
+import { Navbar } from "@/components/navbar"
+
+interface LayoutProps {
+  children: React.ReactNode
+}
+
+export function Layout({ children }: LayoutProps) {
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Navbar />
+      <main className="flex-1">{children}</main>
+    </div>
+  )
+}
