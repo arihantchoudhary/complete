@@ -1,0 +1,13 @@
+// Add a check to prevent duplicate messages
+const uniqueMessages = messages.filter((message, index, self) =>
+  index === self.findIndex((m) => m.content === message.content)
+);
+
+// Use uniqueMessages instead of messages when rendering
+return (
+  <div className="chat-container">
+    {uniqueMessages.map((message, index) => (
+      <ChatMessage key={index} message={message} />
+    ))}
+  </div>
+); 
