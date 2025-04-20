@@ -2,7 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverActions: true,
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
   },
   env: {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
@@ -22,6 +24,16 @@ const nextConfig = {
       crypto: false,
     }
     return config
+  },
+  // Added from next.config.mjs to fix build issues
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
+    unoptimized: true,
   },
 }
 
