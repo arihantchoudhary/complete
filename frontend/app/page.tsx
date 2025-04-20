@@ -38,8 +38,8 @@ import { ClientLayout } from "@/components/client-layout";
 export default function Home() {
   return (
     <ClientLayout>
-      <div className="min-h-screen pt-16 bg-gradient-to-b from-background to-background/95">
-        <div className="flex flex-col gap-6 p-6 overflow-auto">
+      <div className="min-h-screen bg-gradient-to-b from-background to-background/95">
+        <div className="flex flex-col gap-6 p-6 pt-8 overflow-auto">
           {/* Hero Panel */}
           <Card className="w-full max-w-4xl mx-auto relative overflow-hidden group shadow-2xl hover:shadow-primary/20 transition-all duration-300">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />

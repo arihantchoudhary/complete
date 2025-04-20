@@ -19,7 +19,7 @@ export default function ProfilePage() {
   return (
     <Layout>
       <ProtectedRoute>
-        <div className="container mx-auto py-10 px-4">
+        <div className="container mx-auto py-10 px-6 pt-8">
           <h1 className="text-3xl font-bold mb-8">Your Profile</h1>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -29,14 +29,16 @@ export default function ProfilePage() {
                 <CardDescription>Your personal details</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center">
-                <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 mb-4 flex items-center justify-center">
+                <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gray-100 mb-4 flex items-center justify-center">
                   {session?.user?.image ? (
                     <Image 
                       src={session.user.image} 
                       alt={session.user.name || "User"} 
-                      width={128} 
-                      height={128} 
-                      className="object-cover"
+                      fill
+                      sizes="128px"
+                      style={{ objectFit: "cover" }}
+                      className="rounded-full"
+                      priority
                     />
                   ) : (
                     <User className="h-16 w-16 text-gray-400" />

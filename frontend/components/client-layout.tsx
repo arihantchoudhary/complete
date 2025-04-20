@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Navbar } from "@/components/navbar";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -14,9 +13,8 @@ export function ClientLayout({ children }: ClientLayoutProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="relative min-h-screen">
-      <Navbar />
-      <div className="fixed top-16 left-4 z-20">
+    <div className="relative min-h-screen max-w-full overflow-x-hidden">
+      <div className="fixed top-4 left-4 z-20">
         <Button
           variant="ghost"
           size="icon"
@@ -26,16 +24,16 @@ export function ClientLayout({ children }: ClientLayoutProps) {
           {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
         </Button>
       </div>
-      <div className="flex pt-16">
+      <div className="flex">
         <div
-          className={`fixed left-0 top-16 h-[calc(100vh-4rem)] overflow-y-auto transition-all duration-300 bg-background z-10 border-r ${
+          className={`fixed left-0 top-0 h-screen overflow-y-auto transition-all duration-300 bg-background z-10 border-r ${
             isCollapsed ? "w-[68px]" : "w-[240px]"
           }`}
         >
           <Sidebar isCollapsed={isCollapsed} />
         </div>
         <main
-          className={`flex-1 min-h-[calc(100vh-4rem)] transition-all duration-300 ${
+          className={`flex-1 min-h-screen w-full transition-all duration-300 overflow-x-hidden ${
             isCollapsed ? "ml-[68px]" : "ml-[240px]"
           }`}
         >

@@ -77,13 +77,17 @@ export function Navbar() {
                   className="rounded-full w-10 h-10 p-0 overflow-hidden"
                 >
                   {session?.user?.image ? (
-                    <Image 
-                      src={session.user.image} 
-                      alt={session.user.name || "User"} 
-                      width={40} 
-                      height={40} 
-                      className="rounded-full"
-                    />
+                    <div className="relative w-full h-full">
+                      <Image 
+                        src={session.user.image} 
+                        alt={session.user.name || "User"} 
+                        fill
+                        sizes="40px"
+                        style={{ objectFit: "cover" }}
+                        className="rounded-full"
+                        priority
+                      />
+                    </div>
                   ) : (
                     <User className="h-5 w-5" />
                   )}
