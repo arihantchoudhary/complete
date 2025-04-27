@@ -2,53 +2,36 @@
 
 import { useState } from "react";
 import { Layout } from "@/components/layout";
-import { ChatInterface } from "@/components/chat-interface";
-import { Dashboard } from "@/components/dashboard";
-import type { ShipmentDetails } from "@/types";
+import DocumentAnalyzer from "@/components/document-analyzer";
+import RouteMap from "@/components/route-map";
+import RiskAssessment from "@/components/risk-assessment";
+import DocumentVerification from "@/components/document-verification";
 
 export default function DemoPage() {
-  const [shipmentDetails, setShipmentDetails] =
-    useState<ShipmentDetails | null>(null);
-  const [showDashboard, setShowDashboard] = useState(false);
-  const [showAlternativeRoute, setShowAlternativeRoute] = useState(false);
+  const [isAnalyzed, setIsAnalyzed] = useState(false);
 
-  const handleShipmentComplete = (
-    details: ShipmentDetails,
-    showAlternative: boolean
-  ) => {
-    setShipmentDetails(details);
-    setShowAlternativeRoute(showAlternative);
-    setShowDashboard(true);
-  };
-
-  const handleAddAnotherShipment = () => {
-    setShipmentDetails(null);
-    setShowDashboard(false);
+  const handleAnalyze = () => {
+    setIsAnalyzed(true);
   };
 
   return (
     <Layout>
-      <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)] gap-4 p-4 overflow-auto">
-        <div
-          className={`${
-            showDashboard ? "md:w-1/3" : "w-full"
-          } transition-all duration-300 ease-in-out`}
-        >
-          <ChatInterface
-            onShipmentComplete={handleShipmentComplete}
-            resetChat={!showDashboard}
-          />
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white p-6">
+        <div className="mx-auto max-w-7xl">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-8">
+            Document Analysis Demo
+          </h1>
+          
+          {!isAnalyzed ? (
+            <DocumentAnalyzer onAnalyze={handleAnalyze} />
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2">
+              <RouteMap />
+              <RiskAssessment />
+              <DocumentVerification />
+            </div>
+          )}
         </div>
-
-        {showDashboard && shipmentDetails && (
-          <div className="md:w-2/3 overflow-auto animate-fade-in">
-            <Dashboard
-              shipmentDetails={shipmentDetails}
-              showAlternativeRoute={showAlternativeRoute}
-              onAddAnotherShipment={handleAddAnotherShipment}
-            />
-          </div>
-        )}
       </div>
     </Layout>
   );
