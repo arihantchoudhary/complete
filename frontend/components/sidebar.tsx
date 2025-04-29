@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, PlayCircle, FileText, Phone, User, LogOut, ChevronDown } from "lucide-react";
+import { Home, PlayCircle, FileText, Phone, User, LogOut, ChevronDown, FormInput, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -35,6 +35,18 @@ export function Sidebar({ isCollapsed }: SidebarProps) {
       icon: PlayCircle,
       href: "/demo",
       color: "text-violet-500",
+    },
+    {
+      label: "Input Demo",
+      icon: FormInput,
+      href: "/input-demo",
+      color: "text-amber-500",
+    },
+    {
+      label: "World Ports",
+      icon: Globe,
+      href: "/world-ports",
+      color: "text-blue-600",
     },
     {
       label: "Report",

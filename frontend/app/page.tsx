@@ -3,6 +3,8 @@
 import { ClientLayout } from "@/components/client-layout";
 import Hero from "@/components/hero";
 import SupplyChainFlow from "@/components/supply-chain-flow";
+import SupplyChainLifecycle from "@/components/supply-chain-lifecycle";
+import HSCodeExplanation from "@/components/hs-code-explanation";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -25,6 +27,12 @@ export default function Home() {
 
           {/* How It Works Section */}
           <SupplyChainFlow />
+
+          {/* Supply Chain Lifecycle Section */}
+          <SupplyChainLifecycle />
+
+          {/* HS Code Explanation Section */}
+          <HSCodeExplanation />
 
           {/* Microsoft Logo */}
           <div className="w-full max-w-4xl mx-auto mt-12">
@@ -121,6 +129,9 @@ export default function Home() {
                 </Button>
                 <Button size="lg" variant="outline" asChild>
                   <Link href="/report">View Sample Report</Link>
+                </Button>
+                <Button size="lg" variant="outline" className="bg-blue-50" asChild>
+                  <Link href="/world-ports">Explore World Ports Map</Link>
                 </Button>
               </div>
             </div>
