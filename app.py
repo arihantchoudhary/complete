@@ -8,7 +8,7 @@ from openai import OpenAI
 
 # Load environment variables
 load_dotenv()
-CARTESIA_API_KEY = os.getenv("CARTESIA_API_KEY", "sk_car_SukLpctGR53PJv6UX4M3N8")
+CARTESIA_API_KEY = os.getenv("CARTESIA_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Create output directory if it doesn't exist
