@@ -49,6 +49,12 @@ export function Sidebar({ isCollapsed }: SidebarProps) {
       color: "text-blue-600",
     },
     {
+      label: "Documents",
+      icon: FileText,
+      href: "/document-upload",
+      color: "text-emerald-600",
+    },
+    {
       label: "Report",
       icon: FileText,
       color: "text-pink-700",
