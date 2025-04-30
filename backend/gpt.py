@@ -1,17 +1,25 @@
 import os, time
 from openai import OpenAI
-from redis import Redis
+from redis_cache import RedisCache
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Setup
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-cache = Redis.from_url(os.getenv("REDIS_URL"))
+cache = RedisCache(namespace="openai")
 
 def generate_response(messages):
-    key = f"cache:{hash(tuple(msg['content'] for msg in messages))}"
+    # Create a unique cache key based on the message contents
+    key = f"response:{hash(tuple(msg['content'] for msg in messages))}"
+    
+    # Try to get from cache first
     cached = cache.get(key)
     if cached:
-        return cached.decode()
-
+        return cached
+    
+    # If not in cache, call the OpenAI API
     resp = client.chat.completions.create(
         model="gpt-3.5-turbo",
         stream=False,
@@ -20,7 +28,10 @@ def generate_response(messages):
         max_tokens=150,
     )
     text = resp.choices[0].message.content
-    cache.set(key, text, ex=3600)  # cache for 1h
+    
+    # Store in cache with 1-hour expiration
+    cache.set(key, text, expire_seconds=3600)
+    
     return text
 
 # Usage
