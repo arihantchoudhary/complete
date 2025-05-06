@@ -1,2 +1,4 @@
 openai
 redis
+Flask
+Flask-Cors

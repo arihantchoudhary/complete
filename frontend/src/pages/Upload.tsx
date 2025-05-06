@@ -61,18 +61,40 @@ export default function Upload() {
     
     setIsUploading(true);
     
-    // Simulate upload process
-    setTimeout(() => {
+    const formData = new FormData();
+    formData.append("file", file); // "file" is a common key, adjust if backend expects different
+
+    fetch('/api/upload', { // <-- Placeholder URL, please confirm/change if needed
+      method: 'POST',
+      body: formData,
+    })
+    .then(response => {
+      if (!response.ok) {
+        // Throw an error to be caught by the .catch block
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Or response.text() if backend sends plain text
+    })
+    .then(data => {
+      console.log('Upload successful:', data); // Log backend response
       toast({
         title: "Upload successful",
         description: `${file.name} has been processed successfully.`
       });
-      
       // Redirect to dashboard after successful upload
       window.location.href = "/dashboard";
-      
+    })
+    .catch(error => {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload failed",
+        description: error.message || "An error occurred during upload.",
+        variant: "destructive"
+      });
+    })
+    .finally(() => {
       setIsUploading(false);
-    }, 1500);
+    });
   };
 
   const downloadSampleFile = () => {
