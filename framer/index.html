@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framer Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+            "unframer": "https://esm.sh/unframer@0.0.12"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <!-- Attempting to load header/bar.js as the main entry point -->
+    <!-- If this doesn't work, we might need to inspect the JS files 
+         to find the actual main application bundle or a root component. -->
+    <script type="module">
+        import React from 'react';
+        import ReactDOM from 'https://esm.sh/react-dom@18.2.0/client';
+        import App from './header/bar.js'; // Assuming App is the default export
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
+    </script>
+</body>
+</html>
