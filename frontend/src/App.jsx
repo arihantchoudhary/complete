@@ -104,6 +104,10 @@ function App() {
     }
   };
 
+  const TrashIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="trash-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+  );
+
   return (
     <div className="app">
       <div className="container">
@@ -131,17 +135,14 @@ function App() {
 
         <div className="chat-section">
           <div className="chat-header">
-            <ModelSelector 
-              selectedModel={selectedModel}
-              onModelChange={handleModelChange}
-            />
             {messages.length > 0 && (
               <button 
                 onClick={clearChat} 
                 className="clear-button"
                 disabled={loading}
+                aria-label="Clear Chat"
               >
-                Clear Chat
+                <TrashIcon />
               </button>
             )}
           </div>
@@ -152,6 +153,8 @@ function App() {
             messages={messages}
             onSendMessage={sendMessage}
             loading={loading}
+            selectedModel={selectedModel}
+            onModelChange={handleModelChange}
           />
         </div>
 

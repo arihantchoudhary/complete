@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import ModelSelector from '../components/ModelSelector';
-import ChatInterface from '../components/ChatInterface';
+import ModelSelector from '../../components/ModelSelector';
+import ChatInterface from '../../components/ChatInterface';
 import styles from './page.module.css';
 
 export default function Home() {

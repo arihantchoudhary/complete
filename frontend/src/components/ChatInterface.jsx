@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ModelSelector from './ModelSelector';
 
-const ChatInterface = ({ messages, onSendMessage, loading }) => {
+const SendIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="send-icon"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+);
+
+const ChatInterface = ({ messages, onSendMessage, loading, selectedModel, onModelChange }) => {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
 
@@ -43,7 +48,7 @@ const ChatInterface = ({ messages, onSendMessage, loading }) => {
         <div ref={messagesEndRef} />
       </div>
       
-      <form onSubmit={handleSubmit} className="message-input-form">
+      <form onSubmit={handleSubmit} className="message-input-form search-bar-layout">
         <input
           type="text"
           value={input}
@@ -52,12 +57,14 @@ const ChatInterface = ({ messages, onSendMessage, loading }) => {
           disabled={loading}
           className="message-input"
         />
+        <ModelSelector selectedModel={selectedModel} onModelChange={onModelChange} />
         <button 
           type="submit" 
           disabled={loading || !input.trim()} 
           className="send-button"
+          aria-label="Send"
         >
-          Send
+          <SendIcon />
         </button>
       </form>
     </div>
