@@ -1,14 +1,108 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+import ModelSelector from './components/ModelSelector'
+import ChatInterface from './components/ChatInterface'
 
 function App() {
-  const [email, setEmail] = useState('')
+  const [selectedModel, setSelectedModel] = useState('gpt-4');
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log('Email submitted:', email)
-  }
+  // Load messages from localStorage on initial render
+  useEffect(() => {
+    const savedMessages = localStorage.getItem('chat-messages');
+    const savedModel = localStorage.getItem('selected-model');
+    
+    if (savedMessages) {
+      try {
+        setMessages(JSON.parse(savedMessages));
+      } catch (e) {
+        console.error('Failed to parse saved messages:', e);
+      }
+    }
+    
+    if (savedModel) {
+      setSelectedModel(savedModel);
+    }
+  }, []);
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('chat-messages', JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  // Save selected model to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('selected-model', selectedModel);
+  }, [selectedModel]);
+
+  const handleModelChange = (model) => {
+    setSelectedModel(model);
+  };
+
+  const clearChat = () => {
+    setMessages([]);
+    localStorage.removeItem('chat-messages');
+  };
+
+  const sendMessage = async (message) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Add user message to chat
+      const updatedMessages = [
+        ...messages,
+        { role: 'user', content: message }
+      ];
+      setMessages(updatedMessages);
+      
+      // Send to API
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: updatedMessages,
+        }),
+      });
+
+      let data = null;
+      let text = await response.text();
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch (e) {
+        throw new Error('Invalid JSON response from server');
+      }
+
+      if (!response.ok || !data || !data.message) {
+        throw new Error((data && data.error) || 'Failed to get response');
+      }
+      
+      // Add AI response to chat
+      setMessages([
+        ...updatedMessages,
+        { role: 'assistant', content: data.message }
+      ]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setError(error.message);
+      
+      // Add error message to chat
+      setMessages([
+        ...messages,
+        { role: 'user', content: message },
+        { role: 'error', content: `Error: ${error.message}` }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="app">
@@ -35,19 +129,30 @@ function App() {
           />
         </div>
 
-        <div className="input-section">
-          <div className="input-wrapper">
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="Ask Anything"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="custom-input"
-              />
-              <input type="submit" value="Enter" className="submit-button" />
-            </form>
+        <div className="chat-section">
+          <div className="chat-header">
+            <ModelSelector 
+              selectedModel={selectedModel}
+              onModelChange={handleModelChange}
+            />
+            {messages.length > 0 && (
+              <button 
+                onClick={clearChat} 
+                className="clear-button"
+                disabled={loading}
+              >
+                Clear Chat
+              </button>
+            )}
           </div>
+          
+          {error && <div className="error-alert">{error}</div>}
+          
+          <ChatInterface
+            messages={messages}
+            onSendMessage={sendMessage}
+            loading={loading}
+          />
         </div>
 
         <footer className="footer">
