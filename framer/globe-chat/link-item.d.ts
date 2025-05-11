@@ -16,11 +16,11 @@ export interface Props {
 
 }
 
-const FooterFramerComponent = (props: Props) => any
+const LinkItemFramerComponent = (props: Props) => any
 
 type VariantsMap = Partial<Record<UnframerBreakpoint, Props['variant']>> & { base: Props['variant'] }
 
-FooterFramerComponent.Responsive = (props: Omit<Props, 'variant'> & {variants?: VariantsMap}) => any
+LinkItemFramerComponent.Responsive = (props: Omit<Props, 'variant'> & {variants?: VariantsMap}) => any
 
-export default FooterFramerComponent
+export default LinkItemFramerComponent
 

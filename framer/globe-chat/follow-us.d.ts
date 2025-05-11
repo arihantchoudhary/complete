@@ -16,11 +16,11 @@ export interface Props {
 
 }
 
-const BadgeFramerComponent = (props: Props) => any
+const FollowUsFramerComponent = (props: Props) => any
 
 type VariantsMap = Partial<Record<UnframerBreakpoint, Props['variant']>> & { base: Props['variant'] }
 
-BadgeFramerComponent.Responsive = (props: Omit<Props, 'variant'> & {variants?: VariantsMap}) => any
+FollowUsFramerComponent.Responsive = (props: Omit<Props, 'variant'> & {variants?: VariantsMap}) => any
 
-export default BadgeFramerComponent
+export default FollowUsFramerComponent
 
