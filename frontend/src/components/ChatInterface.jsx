@@ -53,7 +53,7 @@ const ChatInterface = ({ messages, onSendMessage, loading, selectedModel, onMode
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
+          placeholder="Ask Anything ..."
           disabled={loading}
           className="message-input"
         />
