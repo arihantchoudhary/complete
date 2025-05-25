@@ -1,9 +1,13 @@
 
 always on ai agents:
+set up social media
+set up SAP
 set up news
 set up weather
 set up geopolitical risk 
 set up tarriff
+
+
 
 map:
 take in entry points and display routes on map
