@@ -1,6 +1,8 @@
 
 always on ai agents:
-set up social media
+
+scraper c
+set up social media scraping
 set up SAP
 set up news
 set up weather
