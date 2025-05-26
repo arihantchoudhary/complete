@@ -3,7 +3,7 @@
 
 always on ai agents are basically mcp clients 
 
-scrapers -- mcp servers
+scrapers -- mcp servers: https://mcpservers.org/
 set up social media scraping
 set up SAP
 set up news
