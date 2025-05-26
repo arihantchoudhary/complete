@@ -1,7 +1,9 @@
 
-always on ai agents:
 
-scraper c
+
+always on ai agents are basically mcp clients 
+
+scrapers -- mcp servers
 set up social media scraping
 set up SAP
 set up news
