@@ -2,6 +2,14 @@
 
 
 always on ai agents are basically mcp clients 
+-- scrape linkedin job postings everyday
+-- make job posting response schema
+-- check out job descriptions
+-- tokenize job descriptions
+-- search most popular job descriptions
+-- 
+
+
 
 scrapers -- mcp servers: https://mcpservers.org/
 set up social media scraping
