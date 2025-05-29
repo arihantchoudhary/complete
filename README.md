@@ -1,4 +1,7 @@
 
+suggest services that always on ai agents can offer. you can assign service by getting on call with them
+
+
 
 
 always on ai agents are basically mcp clients 
@@ -7,7 +10,6 @@ always on ai agents are basically mcp clients
 -- check out job descriptions
 -- tokenize job descriptions
 -- search most popular job descriptions
--- 
 
 
 
