@@ -1,7 +1,7 @@
 
-suggest services that always on ai agents can offer. you can assign service by getting on call with them
+l services that always on ai agents can offer. you can assign service by getting on call with them
 
-
+Email MCP Server Setup & Chat Integration
 
 
 always on ai agents are basically mcp clients 
