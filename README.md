@@ -1,8 +1,8 @@
 
-l services that always on ai agents can offer. you can assign service by getting on call with them
+Services that always on ai agents can offer. you can assign service by getting on call with them
 
 Email MCP Server Setup & Chat Integration
-
+Make playground an mcp client
 
 always on ai agents are basically mcp clients 
 -- scrape linkedin job postings everyday
