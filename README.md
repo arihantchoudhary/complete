@@ -1,4 +1,4 @@
-
+thomas is live
 Services that always on ai agents can offer. you can assign service by getting on call with them
 
 Email MCP Server Setup & Chat Integration
