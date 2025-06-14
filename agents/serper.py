@@ -41,7 +41,6 @@ class SerperAgent:
 # Example usage:
 if __name__ == "__main__":
     # Replace with your actual API key
-    api_key = "46c200260448143101e5c5ba0680bddac9eddcf0"
     agent = SerperAgent(api_key=api_key)
     results = agent.search("Glendo Elementary En 3rd, 82213 Glendo")
     print(results)
