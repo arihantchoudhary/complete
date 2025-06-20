@@ -6,43 +6,56 @@ from langchain_openai import ChatOpenAI
 from browser import BrowserUseActivator
 import time
 
+# async def main():
+#     activator = BrowserUseActivator()
+# activator.activate()
 
+#     agent = Agent(
+#         task="Compare the price of gpt-4o and DeepSeek-V3",
+#         llm=ChatOpenAI(model="gpt-4o"),
+#     )
+#     await agent.run()
 
 async def worker_service():
     activator = BrowserUseActivator()
-    task  = '''
-    You are an agent made to navigate through Shipping Portals
-    Go to https://shipmate-redwood-portal.lovable.app/ 
-    DETECT A PAGE FIRST AND DO EXECUTE ACTIONS BASED ON THE PAGE
-
-
+    activator.deactivate()
+    
+    reschedule_task  = '''
     %%%%%%%%%%%
     LOGIN PAGE
     %%%%%%%%%%%
-    Sign in as operator01 / pass123 
-    and/or go to shipment service and reschdule all",
-
-
-
+    Go to https://shipmate-redwood-portal.lovable.app/ and sign in as operator01 / pass123
     %%%%%%%%%%%
-
-
-    %%%%%%%%%%
+    SHIPMENT SERVICE PAGE
+    %%%%%%%%%%%
+    Go to shipment service and reschdule all
     '''
-
-    agent = Agent(
-        task=task,
+    
+    reschedule_agent = Agent(
+        task=reschedule_task,
+        llm=ChatOpenAI(model="gpt-4o")
+    )
+    rerouting_agent = Agent(
+        task="Go to https://v0-oracle-tms-design.vercel.app/, in the table below International Shipment Management. Pick any of the rows in which the shipment says in transit or pending and click on the reroute option (the 4th icon from the left side). The click on alternative port route.",
         llm=ChatOpenAI(model="gpt-4o")
     )
     while True:
 
-        if activator.is_active():
-            print("Risk Mitigation Signal Received. Time to perform the task")
+        if activator.is_rescheduling():
+            print("Service is rescheduling, performing work...")
             # Do your work here
-            await agent.run()    
+            await reschedule_agent.run()   
+            activator.deactivate() 
+            time.sleep(5)
+        elif activator.is_rerouting():
+            print("Service is rerouting, performing work...")
+            # Do your work here
+            await rerouting_agent.run()  
+            activator.deactivate()  
             time.sleep(5)
         else:
-            print("Thomas is awake and checking for alerts!")
+            print("Service inactive, waiting...")
             time.sleep(2)
 
 asyncio.run(worker_service())
+
