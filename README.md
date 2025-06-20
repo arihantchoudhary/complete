@@ -1,36 +1,19 @@
-thomas is live
-Services that always on ai agents can offer. you can assign service by getting on call with them
+Thomas is a live AI agent that offers various services. The architecture is based on a client-server model, where Thomas is the client and various services are the servers.
 
-Email MCP Server Setup & Chat Integration
-Make playground an mcp client
+Thomas can offer the following services:
 
-always on ai agents are basically mcp clients 
--- scrape linkedin job postings everyday
--- make job posting response schema
--- check out job descriptions
--- tokenize job descriptions
--- search most popular job descriptions
+* Scrape LinkedIn job postings every day
+* Make job posting response schema
+* Check out job descriptions
+* Tokenize job descriptions
+* Search most popular job descriptions
 
+Thomas can also integrate with various social media platforms and scrape data from them. Additionally, Thomas can integrate with SAP, news, weather, and geopolitical risk services.
 
+Thomas can also be used to display routes on a map, given entry points.
 
-scrapers -- mcp servers: https://mcpservers.org/
-set up social media scraping
-set up SAP
-set up news
-set up weather
-set up geopolitical risk 
-set up tarriff
+Thomas can also be used to send risk alerts and notifications. For example, when do you want to reroute shipments? When do you want to relocate inventory?
 
+The architecture of Thomas is based on a client-server model. The client is the user interface, and the server is the AI agent. The user interface sends a query to the AI agent, and the AI agent responds with a text result and a random result (between phone number, map, mp3, mp4, etc).
 
-
-map:
-take in entry points and display routes on map
-
-
-risk alert and notification
-- when do you want to reroute shipments?
-- when do you want to relocate inventory?
-
-Query -> Router -> Agent (currently 10 agents) -> Text Result + Random Result (between phone number, map, mp3, mp4, etc)
-
-demos: https://drive.google.com/file/d/1Z4HH2FnGCdmQlgv3FuiAyo4FjFjye5Sr/view?usp=drivesdk
+Some demos of Thomas can be found here: https://drive.google.com/file/d/1Z4HH2FnGCdmQlgv3FuiAyo4FjFjye5Sr/view?usp=drivesdk
