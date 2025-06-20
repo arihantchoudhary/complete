@@ -1,9 +1,11 @@
 import os
-import openai
+from openai import OpenAI
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 class GPT:
     def __init__(self, api_key=None, default_model="gpt-4o", default_temperature=0.7, default_max_tokens=1000, default_frequency_penalty=0.0):
@@ -20,7 +22,6 @@ class GPT:
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             raise ValueError("OPENAI_API_KEY is not set in environment variables or provided as a parameter.")
-        openai.api_key = self.api_key
 
         self.default_model = default_model
         self.default_temperature = default_temperature
@@ -61,13 +62,11 @@ class GPT:
             ]
 
             # Call the OpenAI API
-            response = openai.ChatCompletion.create(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                frequency_penalty=frequency_penalty
-            )
+            response = client.chat.completions.create(model=model,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            frequency_penalty=frequency_penalty)
 
             # Extract response text
             response_text = response.choices[0].message.content
@@ -82,16 +81,16 @@ class GPT:
         except Exception as e:
             print(f"Error while calling OpenAI API: {e}")
             return None
-        
 
 
 
-# # Initialize the GPT class
-# gpt = GPT(api_key=os.getenv("OPENAI_API_KEY"))
-# gpt_response = gpt.call(
-#     system_prompt="You are a helpful assistant.",
-#     user_prompt="Tell me a fun fact about space."
-# )
+
+# Initialize the GPT class
+gpt = GPT(api_key=os.getenv("OPENAI_API_KEY"))
+gpt_response = gpt.call(
+    system_prompt="You are a helpful assistant.",
+    user_prompt="Tell me a fun fact about space."
+)
 
 # # Initialize the Gemini class
 # gemini = Gemini(api_key=os.getenv("GEMINI_API_KEY"))

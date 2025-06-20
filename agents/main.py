@@ -1275,6 +1275,8 @@ def categorize(query):
 
 
 if __name__ == "__main__":
+
+    
     categories_df = pd.read_csv("data.csv")
     # print(os.getcwd())
     print(categories_df)
